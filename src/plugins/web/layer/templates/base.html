@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    {{name}}
+    <form action="{{upload_url}}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file"/><br>
+        <input type="submit" value="Submit"><br>
+    </form>
+    {% if download_url %}
+        <a href="{{download_url}}"> Download da imagem </a>
+    {% endif %}
+
+    {% if files %}
+        <img src="{{files}}"/>
+    {% endif %}
+</body>
+</html>
