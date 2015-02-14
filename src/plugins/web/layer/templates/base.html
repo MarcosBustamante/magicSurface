@@ -2,19 +2,30 @@
 <html>
 <head>
     <title></title>
+    <script src="/static/angular.min.js"></script>
+    <script src="/static/services/mrhttp.js"></script>
+    <script src="/static/configs/global_configs.js"></script>
+    <script src="/static/controller/layer/base.js"></script>
 </head>
-<body>
-    {{name}}
-    <form action="{{upload_url}}" method="post" enctype="multipart/form-data">
-        <input type="file" name="file"/><br>
-        <input type="submit" value="Submit"><br>
+<body ng-app="mrapp" ng-controller="BaseCtrl">
+    Angular
+    <form action="{[{upload_url}]}" method="post" enctype="multipart/form-data" target="upload_target" name="imgForm">
+        Arquivo: <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/><br>
+        Layer: <select ng-model="my_layer" ng-options="layer.name for layer in layers"></select><br>
+        <input type="submit" value="Submit" ng-click="submitForm()"><br>
+        <label>{[{status}]}</label>
     </form>
-    {% if download_url %}
-        <a href="{{download_url}}"> Download da imagem </a>
-    {% endif %}
 
-    {% if files %}
-        <img src="{{files}}"/>
-    {% endif %}
+    <ul>
+        <li>
+            Layer: <select ng-model="my_layer" ng-options="layer.name for layer in layers"></select>
+            <button ng-click="getImages(my_layer)" ng-disabled="!my_layer">Get Images</button>
+        </li>
+
+        <li ng-repeat="image in images">
+            <img ng-src="{[{image.link}]}" style="max-height: 100px; max-width: 100px"/>
+        </li>
+    </ul>
+
 </body>
 </html>
