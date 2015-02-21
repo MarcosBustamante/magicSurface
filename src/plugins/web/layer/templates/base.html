@@ -2,30 +2,40 @@
 <html>
 <head>
     <title></title>
-    <script src="/static/angular.min.js"></script>
-    <script src="/static/services/mrhttp.js"></script>
-    <script src="/static/configs/global_configs.js"></script>
-    <script src="/static/controller/layer/base.js"></script>
+    <script src="/static/js/lib/angular.min.js"></script>
+    <script src="/static/js/services/mrhttp.js"></script>
+    <script src="/static/js/api/layer.js"></script>
+    <script src="/static/js/configs/global_configs.js"></script>
+    <script src="/static/js/controller/layer/base.js"></script>
 </head>
-<body ng-app="mrapp" ng-controller="BaseCtrl">
-    Angular
-    <form action="{[{upload_url}]}" method="post" enctype="multipart/form-data" target="upload_target" name="imgForm">
-        Arquivo: <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/><br>
-        Layer: <select ng-model="my_layer" ng-options="layer.name for layer in layers"></select><br>
-        <input type="submit" value="Submit" ng-click="submitForm()"><br>
-        <label>{[{status}]}</label>
-    </form>
-
-    <ul>
-        <li>
+<body ng-app="MixedRealityApp" ng-controller="BaseCtrl">
+    <div style="margin:1% 25%; border: groove #f00; width: 50%;" align="center">
+        <h2>Save Layer:</h2>
+        Name: <input type="text" ng-model="form.name" required/><br>
+        Lati: <input type="text" ng-model="form.latitude" required/><br>
+        Long: <input type="text" ng-model="form.longitude" required/><br>
+        Raio: <input type="text" ng-model="form.radius" required/><br>
+        <input type="submit"  ng-click="submitLayer()" value="Submit">
+        Status: {[{formLayerAtatus}]}
+    </div>
+    <div style="margin:1% 25%; border: groove #000; width: 50%;" align="center">
+        <h2>Upload new Image:</h2>
+        <form action="{[{upload_url}]}" method="post" enctype="multipart/form-data" target="upload_target" name="imgForm">
+            Arquivo: <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
             Layer: <select ng-model="my_layer" ng-options="layer.name for layer in layers"></select>
-            <button ng-click="getImages(my_layer)" ng-disabled="!my_layer">Get Images</button>
-        </li>
+            <input type="submit" value="Submit" ng-click="submitForm()">
+            <br><label>Status: {[{status}]}</label>
+        </form>
+    </div>
+    <div style="margin:1% 25%; border: groove #0f0; width: 50%;" align="center">
+        <h2>Get Images:</h2>
+        Layer: <select ng-model="my_layer" ng-options="layer.name for layer in layers"></select>
+        <button ng-click="getImages(my_layer)" ng-disabled="!my_layer">Get Images</button>
 
-        <li ng-repeat="image in images">
+        <div style="margin: 10px" ng-repeat="image in images">
             <img ng-src="{[{image.link}]}" style="max-height: 100px; max-width: 100px"/>
-        </li>
-    </ul>
+        </div>
+    </div>
 
 </body>
 </html>

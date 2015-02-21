@@ -1,11 +1,14 @@
 # coding utf-8
-__author__ = 'iury'
+__author__ = 'bustamante'
 from google.appengine.ext import ndb
 from google.appengine.api import images
 
 
 class Layer(ndb.Model):
     name = ndb.StringProperty(required=True)
+    latitude = ndb.FloatProperty(required=True)
+    longitude = ndb.FloatProperty(required=True)
+    radius = ndb.FloatProperty(default=20)
     creation = ndb.DateTimeProperty(auto_now_add=True)
     last_update = ndb.DateTimeProperty(auto_now=True)
 
@@ -14,7 +17,10 @@ class Layer(ndb.Model):
             'id': self.key.id(),
             'name': self.name,
             'creation': str(self.creation),
-            'last_update': str(self.last_update)
+            'last_update': str(self.last_update),
+            'latitude': self.latitude,
+            'longitude': self.longitude,
+            'raio': self.radius,
         }
 
     @classmethod
@@ -31,7 +37,9 @@ class Layer(ndb.Model):
     def get_query(cls, **kwargs):
         q = cls.query()
         if 'name' in kwargs:
-            q.filter(cls.name == kwargs['name'])
+            q = q.filter(cls.name == kwargs['name'])
+        if 'id' in kwargs:
+            q = q.filter(cls.key.id() == kwargs['id'])
         return q
 
 
@@ -44,7 +52,7 @@ class ImageLayer(ndb.Model):
 
     def to_dict_json(self):
         return {
-            'image_layer_id': self.key.id(),
+            'id': self.key.id(),
             'link': self.link,
             'layer_id': self.layer.id(),
             'creation': str(self.creation),
@@ -58,7 +66,7 @@ class ImageLayer(ndb.Model):
     @classmethod
     def get_query(cls, **kwargs):
         q = cls.query()
-        if 'layer' in kwargs:
-            q.filter(cls.layer == kwargs['layer'])
+        if 'layer_key' in kwargs:
+            q = q.filter(cls.layer == kwargs['layer_key'])
         return q
 
