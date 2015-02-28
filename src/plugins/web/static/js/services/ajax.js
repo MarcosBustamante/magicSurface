@@ -1,6 +1,6 @@
-angular.module('mrhttp', []);
-angular.module('mrhttp').factory('MRHttp', function($http){
-   return {
+angular.module('ajax', []);
+angular.module('ajax').factory('Ajax', function($http){
+    return {
        get : function(url, params){
            if(!params)
                 params = {};
@@ -31,5 +31,5 @@ angular.module('mrhttp').factory('MRHttp', function($http){
            };
            return $http.post(url, form, options);
        }
-   }
+}
 });

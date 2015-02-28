@@ -1,31 +1,31 @@
 __author__ = 'bustamante'
 import json
-import webapp2
-from src.core.usecase import layer_svc
+from src.core.web.mrhandler import MRHandler
+from src.core.web.decorator import callable_from_browser
+from src.core.usecase.layer import list_layer_svc, get_layer_svc, save_layer_svc
 
 
-class ListLayersHandler(webapp2.RequestHandler):
+class ListLayersHandler(MRHandler):
+    @callable_from_browser
     def get(self):
-        options = self.request.get('options')
-        layers = layer_svc.list_layers(json.loads(options))
-        self.response.write(json.dumps({'layers': layers}))
+        options = json.loads(self.request.get('options'))
+
+        layers = list_layer_svc.list_layers(options)
+        self.response.out.write(json.dumps(layers))
 
 
-class GetLayersHandler(webapp2.RequestHandler):
+class GetLayersHandler(MRHandler):
+    @callable_from_browser
     def get(self):
-        options = self.request.get('options')
+        options = json.loads(self.request.get('options'))
         layer_id = long(self.request.get('id'))
-        layers = layer_svc.get_layers(layer_id, json.loads(options))
-        self.response.write(json.dumps(layers))
+
+        layers = get_layer_svc.get_layers(layer_id, options)
+        self.response.out.write(json.dumps(layers))
 
 
-class GetUploadUrlHandler(webapp2.RequestHandler):
-    def get(self):
-        upload_url = layer_svc.get_upload_url()
-        self.response.write(json.dumps({'upload_url': upload_url}))
-
-
-class SaveLayerHandler(webapp2.RedirectHandler):
+class SaveLayerHandler(MRHandler):
+    @callable_from_browser
     def post(self):
         form = json.loads(self.request.body)
         name = form.get('name')
@@ -33,4 +33,4 @@ class SaveLayerHandler(webapp2.RedirectHandler):
         longitude = float(form.get('longitude'))
         radius = float(form.get('radius')) if 'radius' in form else None
 
-        layer_svc.save_layer(name, latitude, longitude, radius)
+        save_layer_svc.save_layer(name, latitude, longitude, radius)
