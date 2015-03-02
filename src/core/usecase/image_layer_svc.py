@@ -6,9 +6,9 @@ from google.appengine.api import images
 from src.core.layer.model import Layer, ImageLayer
 
 
-def save(blob_info, layer_name):
+def save(blob_info, layer_id):
     link = images.get_serving_url(blob_info.key())
-    layer = Layer.find_or_create(layer_name)
+    layer = Layer.get_by_id(int(layer_id))
 
     image_layer = ImageLayer()
     image_layer.link = link

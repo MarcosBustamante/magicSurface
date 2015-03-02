@@ -20,17 +20,17 @@ class GetLayersHandler(MRHandler):
         options = json.loads(self.request.get('options'))
         layer_id = long(self.request.get('id'))
 
-        layers = get_layer_svc.get_layers(layer_id, options)
+        layers = get_layer_svc.get_layer(layer_id, options)
         self.response.out.write(json.dumps(layers))
 
 
 class SaveLayerHandler(MRHandler):
     @callable_from_browser
     def post(self):
-        form = json.loads(self.request.body)
-        name = form.get('name')
-        latitude = float(form.get('latitude'))
-        longitude = float(form.get('longitude'))
-        radius = float(form.get('radius')) if 'radius' in form else None
+        request_dict = json.loads(self.request.body)
+        name = request_dict.get('name')
+        latitude = request_dict.get('latitude')
+        longitude = request_dict.get('longitude')
+        radius = request_dict.get('radius', None)
 
         save_layer_svc.save_layer(name, latitude, longitude, radius)

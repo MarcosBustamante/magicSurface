@@ -5,11 +5,10 @@ from src.core.layer.model import Layer, ImageLayer
 from google.appengine.ext import ndb
 
 
-def get_layers(layer_id, options):
+def get_layer(layer_id, options):
     """
         filters:
             include_images: [ALL]
-
     """
     if not options:
         options = {}
@@ -19,8 +18,14 @@ def get_layers(layer_id, options):
 
     if has_include_images:
         result['images'] = _get_images_layers(layer_id, options['include_images'])
+    result['layer'] = _get_by_id(layer_id)
 
     return result
+
+
+def _get_by_id(layer_id):
+    layer = Layer.get_by_id(layer_id)
+    return layer.to_dict_json()
 
 
 def _get_images_layers(layer_id, include_images):

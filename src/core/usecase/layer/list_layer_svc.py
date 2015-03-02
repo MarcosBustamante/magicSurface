@@ -1,5 +1,6 @@
 # coding utf-8
 __author__ = 'bustamante'
+from google.appengine.ext import ndb
 from src.core.usecase.layer import INCLUDE_ALL
 from src.core.layer.model import Layer
 

@@ -20,26 +20,14 @@ class Layer(ndb.Model):
             'last_update': str(self.last_update),
             'latitude': self.latitude,
             'longitude': self.longitude,
-            'raio': self.radius,
+            'radius': self.radius,
         }
-
-    @classmethod
-    def find_or_create(cls, layer_name):
-        layer = cls.query(cls.name == layer_name).get()
-        if layer:
-            return layer
-        layer = Layer()
-        layer.name = layer_name
-        layer.put()
-        return layer
 
     @classmethod
     def get_query(cls, **kwargs):
         q = cls.query()
         if 'name' in kwargs:
             q = q.filter(cls.name == kwargs['name'])
-        if 'id' in kwargs:
-            q = q.filter(cls.key.id() == kwargs['id'])
         return q
 
 

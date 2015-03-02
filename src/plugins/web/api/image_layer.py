@@ -10,10 +10,10 @@ from google.appengine.ext.webapp import blobstore_handlers
 class SaveImageLayerHandler(blobstore_handlers.BlobstoreUploadHandler):
     @callable_from_browser
     def post(self):
-        layer = json.loads(self.request.get('layer'))
+        layer_id = self.request.get('layer_id')
         blob_info = self.get_uploads('file')[0]
 
-        image_layer_svc.save(blob_info, layer['name'])
+        image_layer_svc.save(blob_info, layer_id)
         result = image_layer_svc.get()
         self.response.write(json.dumps(result))
 

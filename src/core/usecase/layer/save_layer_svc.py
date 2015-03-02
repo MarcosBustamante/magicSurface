@@ -6,8 +6,8 @@ from src.core.layer.model import Layer
 def save_layer(name, latitude, longitude, radius):
     layer = Layer()
     layer.name = name
-    layer.latitude = latitude
-    layer.longitude = longitude
+    layer.latitude = float(latitude)
+    layer.longitude = float(longitude)
     if radius:
-        layer.radius = radius
+        layer.radius = float(radius)
     layer.put()

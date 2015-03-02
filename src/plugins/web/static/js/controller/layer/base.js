@@ -24,7 +24,7 @@ angular.module('MixedRealityApp').controller('BaseCtrl', function($scope, ImageL
 
     $scope.submitForm = function(){
         $scope.status = 'Mandando para o servidor';
-        formData.append("layer", angular.toJson($scope.my_layer));
+        formData.append("layer_id", angular.toJson($scope.my_layer.id));
         Ajax.post_file($scope.upload_url, formData)
             .success(function(result){
                 $scope.upload_url = result.upload_url;
