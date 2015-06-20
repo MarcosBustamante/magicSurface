@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    Documentação
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/global.css" />
+    <link rel="stylesheet" href="/static/css/colors.css" />
+{% endblock css %}
+
+{% block js %}
+    <script src="/static/lib/download.js"></script>
+{% endblock js %}
+
+{% block body %}
+    <div class="row con">
+        <div class="col-md-2 fixed">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <p><a href="#download">MagicSurface.js</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10 scrollit">
+
+            <!-- MagicSurfaceJs-->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div id="download" class="text-center">
+                        <h1 class="red font-initial">MagicSurface.js</h1>
+                        <div>
+                            <p class="text-justify margi-35-0">
+                                Para uma manipulação mais simples da api você pode fazer o download de um modulo angularJs
+                                que disponibilizamos, nesse fazemos todas as chamadas disponíveis na api, após de rodar uma série
+                                de validações de dados, evitando chamadas que irão resultar em erros.
+                            </p>
+                            <p>
+                                <a onclick="downloadFile('/static/magicSurface.min.js')" class="btn btn-primary">Download</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock body %}

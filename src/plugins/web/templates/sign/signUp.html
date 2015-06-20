@@ -1,0 +1,89 @@
+{% extends 'base/base.html' %}
+
+
+{% block title %}
+    Sign Up
+{% endblock title %}
+
+{% block js %}
+    <script src="/static/js/controllers/SignUpCtrl.js"></script>
+{% endblock js %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/colors.css"/>
+{% endblock css %}
+
+{% block body %}
+    <div class="row" ng-controller="SignUpCtrl">
+        <div class="col-md-offset-1 col-md-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Crie sua conta</h3>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" ng-class="{'has-error': errors.userId}">
+                                <span class="red">*</span><label> Username</label>
+                                <input type="text" ng-model="form.userId" ng-change="removeError('userId')" class="form-control" required/>
+                                <p class="help-block"  ng-show="errors.userId">{[{ errors.userId }]}</p>
+                            </div>
+                            <div class="form-group" ng-class="{'has-error': errors.password}">
+                                <span class="red">*</span> <label>Senha</label>
+                                <input type="password" ng-model="form.password" ng-change="removeError('password')" class="form-control" required/>
+                                <p class="help-block"  ng-show="errors.password">{[{ errors.password }]}</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Nome</label>
+                                <input type="text" ng-model="form.name" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>Endereço </label>
+                                <input type="text" ng-model="form.address" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Cidade</label>
+                                <input type="text" ng-model="form.city" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" ng-class="{'has-error': errors.email}">
+                                <span class="red">*</span> <label>Email </label>
+                                <input type="text" ng-model="form.email" ng-change="removeError('email')" class="form-control" required/>
+                                <p class="help-block"  ng-show="errors.email">{[{ errors.email }]}</p>
+                            </div>
+                            <div class="form-group" ng-class="{'has-error': errors.password}">
+                                <span class="red">*</span> <label>Confirme sua senha </label>
+                                <input type="password" ng-model="form.confirmPassword" ng-change="removeError('password')" class="form-control" required/>
+                                <p class="help-block"  ng-show="errors.password">{[{ errors.password }]}</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Data do nascimento</label>
+                                <input type="date" ng-model="form.birth" class="form-control"/>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-8">
+                                    <label>Bairro</label>
+                                    <input type="text" ng-model="form.neighborhood" class="form-control"/>
+                                </div>
+                                <div class="col-md-4" ng-class="{'has-error': errors.number}">
+                                    <label>Número</label>
+                                    <input type="number" ng-model="form.number" ng-change="removeError('number')" class="form-control"/>
+                                    <p class="help-block"  ng-show="errors.number">{[{ errors.number }]}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>País</label>
+                                <input type="text" ng-model="form.country" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success col-md-offset-9" ng-click="save()">Cadastrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

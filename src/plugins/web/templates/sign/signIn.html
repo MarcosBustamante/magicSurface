@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    Sign In
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/global.css">
+{% endblock css %}
+
+{% block js %}
+    <script src="/static/js/controllers/SignInCtrl.js"></script>
+{% endblock js %}
+
+{% block body %}
+    <div ng-controller="SignInCtrl" class="row" style="margin-top: 8%">
+        <div class="col-lg-offset-4 col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sign In</h3>
+                </div>
+
+                <div class="panel-body">
+                    <div class="alert alert-danger row" ng-show="errorMsg">
+                        <label class="col-md-11">{[{ errorMsg }]}</label>
+                        <i class="glyphicon glyphicon-remove col-md-1 pointer" ng-click="removeError()"></i>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error': errorMsg}">
+                        <label class="control-label">Username</label>
+                        <input type="text" class="form-control" ng-model="form.userId"/>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error': errorMsg}">
+                        <label class="control-label">Senha</label>
+                        <input type="password" class="form-control" ng-model="form.password"/>
+                    </div>
+                    <button class="btn btn-success" ng-click="signIn()">Logar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
