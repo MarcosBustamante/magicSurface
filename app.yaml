@@ -13,8 +13,11 @@ handlers:
   static_dir: src/plugins/web/static
 
 - url: .*
-  script: src.plugins.web.urls.app
+  script: src.plugins.web.handlers.urls.app
 
 libraries:
 - name: webapp2
   version: "2.5.2"
+
+- name: jinja2
+  version: "2.6"

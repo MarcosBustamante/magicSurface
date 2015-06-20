@@ -1,0 +1,33 @@
+.pointer {
+    cursor: pointer;
+}
+
+.margin-top-6per {
+    margin-top: 6%;
+}
+
+.margin-top-3per {
+    margin-top: 3%;
+}
+
+.padding-6per {
+    padding: 7%;
+}
+
+.fixed {
+    height:400px;
+    overflow:hidden;
+}
+
+.scrollit {
+    height: calc(100vh - 110px);
+    overflow-y:scroll;
+}
+
+.font-initial{
+    font-family: initial;
+}
+
+.margi-35-0 {
+    margin: 35px 0;
+}

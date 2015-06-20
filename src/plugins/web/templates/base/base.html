@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock title %}</title>
+
+    <link rel="stylesheet" href="/static/lib/bootstrap/css/bootstrap.min.css" />
+    {% block css %}{% endblock css %}
+
+    <script src="/static/lib/jquery/js/jquery-1.11.1.min.js"></script>
+    <script src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/lib/angular/angular.min.js"></script>
+    <script src="/static/js/services/ajax.js"></script>
+    <script src="/static/js/configs/configs.js"></script>
+    <script src="/static/js/controllers/BaseCtrl.js"></script>
+    <script>
+        window.MS = {};
+        {% if user %}
+            window.MS.user = {{user | safe}};
+        {% endif %}
+    </script>
+    {% block js %}{% endblock js %}
+
+</head>
+<body ng-app="MagicSurfaceApp" ng-controller="BaseCtrl">
+    <nav class="navbar navbar-inverse">
+       <div class="container-fluid">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">MagicSurface</a>
+          </div>
+
+          <div class="collapse navbar-collapse">
+              <ul class="nav navbar-nav navbar-right">
+                  <li><a href="/documentation">Documentação</a></li>
+                  <li><a href="/myApps">Minhas Apps</a></li>
+                  <li><a ng-hide="MS.user" href="/signUp">Cadastrar</a></li>
+                  <li><a ng-hide="MS.user" href="/signIn">Logar</a></li>
+                  <li><a ng-show="MS.user" href="/signOut">Sair</a></li>
+              </ul>
+          </div>
+       </div>
+    </nav>
+
+    <div class="container-fluid">
+        {% block body %}{% endblock body %}
+    </div>
+</body>
+</html>

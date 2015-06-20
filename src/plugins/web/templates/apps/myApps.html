@@ -1,0 +1,120 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    My Apps
+{% endblock title %}
+
+{% block js %}
+    <script src="/static/js/controllers/MyAppsCtrl.js"></script>
+    <script>
+        MS.apps = {{apps | safe}}
+    </script>
+{% endblock js %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/global.css">
+{% endblock css %}
+
+{% block body %}
+    <div ng-controller="MyAppsCtrl">
+        <!-- Não está logado-->
+        <div ng-hide="MS.user" class="row margin-top-6per">
+            <div class="col-md-offset-1 col-md-10">
+                <div class="panel panel-default" >
+                    <div class="panel-heading row padding-6per">
+                        <div class="col-md-12 text-center">
+                            <h2>Opss! Você não está logado</h2>
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <h4>Para gerenciar suas apps você precisa:</h4>
+                        </div>
+                        <div class="col-md-12 text-center margin-top-6per">
+                            <a class="btn btn-primary" href="/signUp">Se cadastrar</a>
+                            <a class="btn btn-success" href="/signIn">Fazer Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Apps -->
+        <div ng-show="MS.user">
+            <div class="margin-top-3per row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Minhas Apps
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="row">
+                                <!-- Caso com app-->
+                                <div class="col-md-4" ng-repeat="app in MS.apps track by $index">
+                                    <div ng-show="app" class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <h4 class="panel-title col-md-9 ">
+                                                    {[{app.name}]}
+                                                </h4>
+                                                <div class="col-md-3">
+                                                    <a ng-if="false" class="btn btn-primary btn-xs left">Gerenciar</a>
+                                                    <a class="btn btn-danger btn-xs left" href="" ng-click="delete($index)">
+                                                        Deletar
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <p class="control-label">Token: {[{app.token}]}</p>
+                                            <p>Criada: {[{app.created.split(' ')[0]}]}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Caso vazio-->
+                            <div ng-hide="MS.apps.length">
+                                <h1 class="text-center">Sem app aqui   :'(</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="margin-top-3per row">
+                <!-- Registrar app-->
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"> Registrar uma app </h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label class="control-label">App name:</label>
+                                <input type="text" class="form-control" ng-model="appName"/>
+                            </div>
+                            <button class="btn btn-primary" ng-click="save()" ng-disabled="!appName">
+                                Registrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usuário -->
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"> Informação do usuário</h4>
+                        </div>
+                        <div class="panel-body">
+                            <p>Username: {[{MS.user.id}]}</p>
+                            <p>Name: {[{MS.user.name}]}</p>
+                            <p>Email: {[{MS.user.email}]}</p>
+                            <p>Criado: {[{MS.user.created.split(' ')[0]}]}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
