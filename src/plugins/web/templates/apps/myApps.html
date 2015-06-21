@@ -91,7 +91,7 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <label class="control-label">App name:</label>
-                                <input type="text" class="form-control" ng-model="appName"/>
+                                <input type="text" class="form-control" ng-enter="save()" ng-model="appName"/>
                             </div>
                             <button class="btn btn-primary" ng-click="save()" ng-disabled="!appName">
                                 Registrar
@@ -110,7 +110,7 @@
                             <p>Username: {[{MS.user.id}]}</p>
                             <p>Name: {[{MS.user.name}]}</p>
                             <p>Email: {[{MS.user.email}]}</p>
-                            <p>Criado: {[{MS.user.created.split(' ')[0]}]}</p>
+                            <p>Data Nascimento: {[{MS.user.birth.split(' ')[0]}]}</p>
                         </div>
                     </div>
                 </div>

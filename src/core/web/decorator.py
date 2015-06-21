@@ -4,6 +4,7 @@ import random
 import logging
 import functools
 import traceback
+from src.core.usecase import MSException
 from src.core.web.mshandler import MSHandler
 
 __author__ = 'bustamante'
@@ -50,4 +51,14 @@ def no_logged_user(method):
             method(self, *args, **kwargs)
         else:
             self.redirect('/myApps')
+    return functools.update_wrapper(wrapper, method)
+
+
+def logged_user(method):
+    def wrapper(self, *args, **kwargs):
+        user = self.get_logged_user()
+        if user:
+            method(self, *args, **kwargs)
+        else:
+            raise MSException(u'O usuário deve estar logado')
     return functools.update_wrapper(wrapper, method)

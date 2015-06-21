@@ -1,4 +1,5 @@
 # coding: utf-8
+from src.core.models.activityLog.model import ActivityLog
 from src.core.usecase import MSException
 from src.core.models.user.model import User
 from src.core.web import cookie

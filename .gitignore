@@ -1,3 +1,5 @@
 node_modules
 .idea
 *pyc
+
+src/plugins/web/static/magicSurface.min.js

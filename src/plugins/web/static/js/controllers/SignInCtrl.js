@@ -14,6 +14,8 @@ angular.module('MagicSurfaceApp').controller('SignInCtrl', function($scope, Ajax
             }).error(function(error){
                 if(error.more_info && error.more_info.type === 'authentication')
                     $scope.errorMsg = error.msg;
+                else
+                    alert(error.msg);
             })
         }
     };

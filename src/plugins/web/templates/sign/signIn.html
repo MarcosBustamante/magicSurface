@@ -27,11 +27,11 @@
                     </div>
                     <div class="form-group" ng-class="{'has-error': errorMsg}">
                         <label class="control-label">Username</label>
-                        <input type="text" class="form-control" ng-model="form.userId"/>
+                        <input type="text" class="form-control" ng-enter="signIn()" ng-model="form.userId"/>
                     </div>
                     <div class="form-group" ng-class="{'has-error': errorMsg}">
                         <label class="control-label">Senha</label>
-                        <input type="password" class="form-control" ng-model="form.password"/>
+                        <input type="password" class="form-control" ng-enter="signIn()" ng-model="form.password"/>
                     </div>
                     <button class="btn btn-success" ng-click="signIn()">Logar</button>
                 </div>
