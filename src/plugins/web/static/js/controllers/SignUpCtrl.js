@@ -2,14 +2,14 @@
  * Created by bustamante on 6/17/15.
  */
 
-angular.module('MagicSurfaceApp').controller('SignUpCtrl', function($scope, Ajax){
+angular.module('MagicSurfaceApp').controller('SignUpCtrl', function($scope, MSAjax){
     $scope.errors = {};
 
     $scope.save = function(){
         _validateForm();
 
         if (angular.equals($scope.errors, {})){
-            Ajax.post('/signUp', $scope.form).success(function(result){
+            MSAjax.post('/signUp', $scope.form).success(function(result){
                 alert('Cadastrado com sucesso');
                 $scope.form = {}
             }).error(function(error){

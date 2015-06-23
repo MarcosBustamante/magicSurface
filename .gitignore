@@ -3,3 +3,5 @@ node_modules
 *pyc
 
 src/plugins/web/static/magicSurface.min.js
+
+concat

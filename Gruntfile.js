@@ -3,7 +3,11 @@ module.exports = function(grunt) {
     grunt.initConfig({
         concat: {
             js: {
-                src: 'src/plugins/web/static/js/services/*.js',
+                src: [
+                    'src/plugins/web/static/js/services/validator.js',
+                    'src/plugins/web/static/js/services/*.js',
+                    'src/plugins/web/static/js/api/**/*.js'
+                ],
                 dest: 'concat/concat.js'
             }
         },
