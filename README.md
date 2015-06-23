@@ -1,1 +1,3 @@
-# mixedRealityApi
+# magicSurface
+
+url: magicsurfacebr.appspot.com
