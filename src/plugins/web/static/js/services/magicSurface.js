@@ -1,20 +1,21 @@
-angular.module('magicSurface', ['ajax']);
+angular.module('magicSurface', ['msajax', 'msvalidator']);
 angular.module('magicSurface').factory('MagicSurface', function(){
     var _token;
-    var _userId;
+    var _username;
     var _host = 'http://magicsurfacebr.appspot.com/';
+    //var _host = 'http://localhost:8080/';
 
-    function configApp(token, userId){
+    function configApp(token, username){
         _token = token;
-        _userId = userId;
+        _username = username;
     }
 
     function getToken(){
         return _token;
     }
 
-    function getUserId(){
-        return _userId;
+    function getUsername(){
+        return _username;
     }
 
     function getHost(){
@@ -24,7 +25,7 @@ angular.module('magicSurface').factory('MagicSurface', function(){
     return {
         getHost: getHost,
         getToken: getToken,
-        getUserId: getUserId,
+        getUsername: getUsername,
         configApp: configApp
     }
 });

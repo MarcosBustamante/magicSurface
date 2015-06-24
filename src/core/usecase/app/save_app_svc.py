@@ -2,9 +2,9 @@
 from src.core.usecase.app import list_app_svc
 from src.core.usecase import MSException
 from src.core.models.app.model import App
+from src.core.models.activityLog.model import ActivityLog
 
 __author__ = 'bustamante'
-
 
 def save(user, name):
     exist_app_name = App.exist_app_name(name)

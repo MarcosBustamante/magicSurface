@@ -1,4 +1,4 @@
-angular.module('MixedRealityApp').controller('BaseCtrl', function($scope, ImageLayerApi, LayerApi, Ajax){
+angular.module('MixedRealityApp').controller('BaseCtrl', function($scope, ImageLayerApi, LayerApi, MSAjax){
     var formData = new FormData();
 
 //    Pegando todos os layers
@@ -25,7 +25,7 @@ angular.module('MixedRealityApp').controller('BaseCtrl', function($scope, ImageL
     $scope.submitForm = function(){
         $scope.status = 'Mandando para o servidor';
         formData.append("layer_id", angular.toJson($scope.my_layer.id));
-        Ajax.post_file($scope.upload_url, formData)
+        MSAjax.post_file($scope.upload_url, formData)
             .success(function(result){
                 $scope.upload_url = result.upload_url;
                 $scope.status = 'Salvo com sucesso';

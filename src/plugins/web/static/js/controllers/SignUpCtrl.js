@@ -2,20 +2,21 @@
  * Created by bustamante on 6/17/15.
  */
 
-angular.module('MagicSurfaceApp').controller('SignUpCtrl', function($scope, Ajax){
+angular.module('MagicSurfaceApp').controller('SignUpCtrl', function($scope, MSAjax){
     $scope.errors = {};
 
     $scope.save = function(){
         _validateForm();
 
         if (angular.equals($scope.errors, {})){
-            Ajax.post('/signUp', $scope.form).success(function(result){
-                // TODO: Colocar alert de sucesso
+            MSAjax.post('/signUp', $scope.form).success(function(result){
+                alert('Cadastrado com sucesso');
                 $scope.form = {}
             }).error(function(error){
-                // TODO: Colocar alert de error
                 if(error.more_info)
                     $scope.errors = error.more_info;
+                else
+                    alert(error.msg);
             })
         }
     };
@@ -27,14 +28,10 @@ angular.module('MagicSurfaceApp').controller('SignUpCtrl', function($scope, Ajax
 
     function _validateForm() {
         if (!$scope.form) $scope.form = {};
-        var _fieldsRequireds = ['userId', 'password', 'email'];
+        var _fieldsRequireds = ['userId', 'confirmPassword', 'password', 'email', 'birth', 'name'];
 
         if ($scope.form.password !== $scope.form.confirmPassword){
             $scope.errors.password = 'As senhas devem ser iguais';
-        }
-
-        if($scope.form.number && isNaN($scope.form.number)) {
-            $scope.errors.number = 'Insira apenas números';
         }
 
         if (!_validateEmail($scope.form.email)){

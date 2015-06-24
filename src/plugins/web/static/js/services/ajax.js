@@ -1,5 +1,5 @@
-angular.module('ajax', []);
-angular.module('ajax').factory('Ajax', ["$http", function($http){
+angular.module('msajax', []);
+angular.module('msajax').factory('MSAjax', ["$http", function($http){
     return {
        get : function(url, params){
            if(!params)
@@ -12,13 +12,13 @@ angular.module('ajax').factory('Ajax', ["$http", function($http){
            return $http(req);
        } ,
 
-       post : function(url, params){
-           if(!params)
-                params = {};
+       post : function(url, data){
+           if(!data)
+                data = {};
            var req = {
                method: 'POST',
                url: url,
-               data: params
+               data: data
            };
            return $http(req);
        },
@@ -27,9 +27,9 @@ angular.module('ajax').factory('Ajax', ["$http", function($http){
            if(!params)
                 params = {};
            var req = {
-                method: "delete",
-                url: url,
-                params: params
+               method: "delete",
+               url: url,
+               params: params
            };
            return $http(req);
        },

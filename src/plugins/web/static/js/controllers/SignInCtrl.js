@@ -2,18 +2,20 @@
  * Created by bustamante on 6/18/15.
  */
 
-angular.module('MagicSurfaceApp').controller('SignInCtrl', function($scope, Ajax){
+angular.module('MagicSurfaceApp').controller('SignInCtrl', function($scope, MSAjax){
     $scope.errorMsg = '';
 
     $scope.signIn = function(){
         _validateForm();
 
         if ($scope.errorMsg === ''){
-            Ajax.post('/signIn', $scope.form).success(function(){
+            MSAjax.post('/signIn', $scope.form).success(function(){
                 window.location = '/myApps'
             }).error(function(error){
                 if(error.more_info && error.more_info.type === 'authentication')
                     $scope.errorMsg = error.msg;
+                else
+                    alert(error.msg);
             })
         }
     };

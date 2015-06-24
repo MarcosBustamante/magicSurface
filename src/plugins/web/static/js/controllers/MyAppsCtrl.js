@@ -2,12 +2,12 @@
  * Created by bustamante on 6/18/15.
  */
 
-angular.module('MagicSurfaceApp').controller('MyAppsCtrl', function($scope, Ajax){
+angular.module('MagicSurfaceApp').controller('MyAppsCtrl', function($scope, MSAjax){
     $scope.MS = MS;
 
     $scope.delete = function(index){
         var app_id = $scope.MS.apps[index].id;
-        Ajax.delete('/myApps', {app_id: app_id}).success(function(){
+        MSAjax.delete('/myApps', {app_id: app_id}).success(function(){
             $scope.MS.apps.splice(index, 1);
         }).error(function(error){
             alert(error.msg);
@@ -16,7 +16,7 @@ angular.module('MagicSurfaceApp').controller('MyAppsCtrl', function($scope, Ajax
 
     $scope.save = function(){
         if($scope.appName) {
-            Ajax.post('/myApps', {name: $scope.appName}).success(function (result) {
+            MSAjax.post('/myApps', {name: $scope.appName}).success(function (result) {
                 $scope.MS.apps.push(result);
             }).error(function (error) {
                 alert(error.msg);
