@@ -20,6 +20,14 @@ def _fix(form):
 def save(app_data, form):
     validate(form, RULES)
     form = _fix(form)
-    layer_key = Layer.save(app_data['app']['id'], form)
-    layer = layer_key.get()
+    if 'id' in form:
+        layer = Layer.get_by_id(int(form['id']))
+        layer.name = form.get('name', layer.name)
+        layer.latitude = form.get('latitude', layer.latitude)
+        layer.longitude = form.get('longitude', layer.longitude)
+        layer.radius = form.get('radius', layer.radius)
+        layer.put()
+    else:
+        layer_key = Layer.save(app_data['app']['id'], form)
+        layer = layer_key.get()
     return layer.to_dict_json()

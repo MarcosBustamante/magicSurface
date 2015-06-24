@@ -4,7 +4,7 @@
 angular.module('magicSurface').factory('LayerApi', ["LayerRestApi", "MSValidator", "$timeout", function(LayerRestApi, MSValidator, $timeout){
     var _rules = {
         notEmpty: ['name', 'latitude', 'longitude'],
-        existOnly: ['name', 'latitude', 'longitude', 'radius'],
+        existOnly: ['name', 'latitude', 'longitude', 'radius', 'id'],
         isNumber: ['latitude', 'longitude', 'radius']
     };
 
