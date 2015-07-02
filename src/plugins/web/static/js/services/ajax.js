@@ -37,7 +37,9 @@ angular.module('msajax').factory('MSAjax', ["$http", function($http){
        post_file: function(url, form){
            var options = {
                withCredentials: true,
-               headers: {'Content-Type': undefined},
+               headers: {
+                   'content-type': 'multipart/form-data'
+               },
                transformRequest: angular.identity
            };
            return $http.post(url, form, options);

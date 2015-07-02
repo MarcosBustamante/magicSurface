@@ -1,6 +1,7 @@
 # coding utf-8
 import webapp2
 from src.plugins.web.handlers.api.layer import layer
+from src.plugins.web.handlers.api.file import file
 from src.plugins.web.handlers.doc import doc
 from src.plugins.web.handlers.apps import myApps
 from src.plugins.web.handlers.sign import signUp, signIn, signOut
@@ -21,6 +22,8 @@ api_routes = [
     ('/layer/list', layer.LayerListHandler),
     ('/layer/save', layer.LayerSaveHandler),
     ('/layer/delete', layer.LayerDeleteHandler),
+    ('/file/upload/url', file.FileGetUrlHandler),
+    ('/file/upload/image', file.FileSaveImagelHandler),
 ]
 
 
