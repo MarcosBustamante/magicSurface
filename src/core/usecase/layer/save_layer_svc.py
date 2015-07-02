@@ -1,5 +1,6 @@
 # coding utf-8
 from src.core.models.layer.model import Layer
+from src.core.usecase import MSException
 from src.core.web.validator import validate
 
 __author__ = 'bustamante'
@@ -22,6 +23,8 @@ def save(app_data, form):
     form = _fix(form)
     if 'id' in form:
         layer = Layer.get_by_id(int(form['id']))
+        if layer is None:
+            raise MSException('layerId invalido')
         layer.name = form.get('name', layer.name)
         layer.latitude = form.get('latitude', layer.latitude)
         layer.longitude = form.get('longitude', layer.longitude)

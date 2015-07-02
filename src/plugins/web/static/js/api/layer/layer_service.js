@@ -44,15 +44,15 @@ angular.module('magicSurface').factory('LayerApi', ["LayerRestApi", "MSValidator
         };
 
         $timeout(function(){
-            var is_layer_object = angular.isObject(layer) && angular.isUndefined(layer.id);
-            if(is_layer_object || !isNaN(layer)){
+            var status = MSValidator.validate(layer, {hasLayerId: [layer]});
+            if(status.isValid){
                 var params = {layerId: isNaN(layer)? layer.id : layer};
                 LayerRestApi.get(params)
                     .success(promise._success)
                     .error(promise._error)
                     .finally(promise._finally);
             } else {
-                if(promise._error) promise._error({msg: 'LayerId inválido'});
+                if(promise._error) promise._error(status);
                 if(promise._finally) promise._finally('');
             }
         });

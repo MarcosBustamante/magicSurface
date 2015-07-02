@@ -52,6 +52,27 @@ angular.module('msvalidator').factory('MSValidator', function(){
                     fields: _fieldsWrong
                 }
             }
+        },
+        'hasLayerId': function(layer){
+            var isLayerObj = angular.isObject(layer) && angular.isUndefined(layer.id);
+
+            if(!isLayerObj && isNaN(layer)){
+                 return {
+                     msg: 'Layer invalido!'
+                 }
+            }
+        },
+        'isFile': function(file){
+            if(angular.isArray(file))
+                file = file[0];
+
+            var isFile = angular.isObject(file) && (file instanceof File);
+
+            if(!isFile){
+                 return {
+                     msg: 'File inválido, verifique se ele é do tipo File'
+                 }
+            }
         }
     };
 
