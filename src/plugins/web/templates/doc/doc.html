@@ -30,11 +30,18 @@
                     <p><a href="#download">Download</a></p>
                     <p><a href="#dependencia">Dependência</a></p>
                     <p><a href="#configuration">Configuração</a></p>
-                    <p><a href="#layers" ng-click="show = 'layer'">Layer</a></p>
-                    <p ng-if="show == 'layer'">&nbsp&nbsp<a href="#layerSave">Layer.save()</a></p>
-                    <p ng-if="show == 'layer'">&nbsp&nbsp<a href="#layerList">Layer.list()</a></p>
-                    <p ng-if="show == 'layer'">&nbsp&nbsp<a href="#layerGet">Layer.get()</a></p>
-                    <p ng-if="show == 'layer'">&nbsp&nbsp<a href="#layerDelete">Layer.delete()</a></p>
+
+                    <p><a href="#layers" ng-click="show = 'layer'">LayerApi</a></p>
+                    <p ng-if="show == 'layer'">&nbsp&nbsp<a href="#layerSave">LayerApi.save()</a></p>
+                    <p ng-if="show == 'layer'">&nbsp&nbsp<a href="#layerList">LayerApi.list()</a></p>
+                    <p ng-if="show == 'layer'">&nbsp&nbsp<a href="#layerGet">LayerApi.get()</a></p>
+                    <p ng-if="show == 'layer'">&nbsp&nbsp<a href="#layerDelete">LayerApi.delete()</a></p>
+
+                    <p><a href="#files" ng-click="show = 'file'">FileApi</a></p>
+                    <p ng-if="show == 'file'">&nbsp&nbsp<a href="#fileSave">FileApi.save()</a></p>
+                    <p ng-if="show == 'file'">&nbsp&nbsp<a href="#fileList">FileApi.list()</a></p>
+                    <p ng-if="show == 'file'">&nbsp&nbsp<a href="#fileGet">FileApi.get()</a></p>
+                    <p ng-if="show == 'file'">&nbsp&nbsp<a href="#fileDelete">FileApi.delete()</a></p>
                 </div>
             </div>
         </div>
@@ -127,11 +134,14 @@ angular.module('myApp').controller('myCtrl', function(MagicSurface){
                 </div>
             </div>
 
+
+
+
             <!-- Layers-->
             <div id="layers" class="panel panel-default">
                 <div class="panel-heading">
                     <div class="text-center">
-                        <h1 class="red font-initial">Layer</h1>
+                        <h1 class="red font-initial">LayerApi</h1>
                         <div class="text-justify margi-35-0">
                             <p>
                                 Layer é um serviço existente no magicSurface, responsável em salvar pequenas áreas em nosso mapa,
@@ -139,7 +149,7 @@ angular.module('myApp').controller('myCtrl', function(MagicSurface){
                                 tais informações podem ser imagens, videos, etc...
                             </p>
                             <p>
-                                Há quatro tipos de métodos que podemos chamar utilizando o serviço Layer:
+                                Há quatro tipos de métodos que podemos chamar utilizando o serviço LayerApi:
                             </p>
                             <div class="row">
                                 <a class="col-md-offset-4 col-md-1 btn btn-primary" href="#layerSave">Save</a>
@@ -153,10 +163,10 @@ angular.module('myApp').controller('myCtrl', function(MagicSurface){
                         <!-- Layer Save-->
                         <div id="layerSave" class="panel panel-warning">
                             <div class="panel-heading">
-                                <h3 class="red font-initial">Layer.save()</h3>
+                                <h3 class="red font-initial">LayerApi.save()</h3>
                                 <div class="text-justify margi-35-0">
                                     <p>
-                                        O Layer.save() pode exercer duas funções, a de salvar e atualizar um layer existente,
+                                        O LayerApi.save() pode exercer duas funções, a de salvar e atualizar um layer existente,
                                         para que ele salve ou atualize um layer, alguns parametros tem que ser passados obrigatóriamente
                                         enquanto outros são opcionais (codigo abaixo).
                                     </p>
@@ -166,17 +176,17 @@ angular.module('myApp').controller('myCtrl', function(MagicSurface){
                                     </p>
                                     <pre>
                                         <code class="javascript hljs">
-angular.module('myApp').controller('myCtrl', function(Layer){
+angular.module('myApp').controller('myCtrl', function(LayerApi){
     // O que estiver entre [] são parâmetros opcionais
     var params = {
         name: 'string',
         latitude: 'float',
         longitude: 'float',
         [radius: 'float'] // o padrão é 20m
-        [id: 'int']
+        [id: 'integer']
     }
 
-    var promise = Layer.save(params);
+    var promise = LayerApi.save(params);
     promise.success(function(result){
         // função que deve chamar caso haja sucesso
     });
@@ -196,41 +206,62 @@ angular.module('myApp').controller('myCtrl', function(Layer){
                         <!-- Layer List-->
                         <div id="layerList" class="panel panel-warning">
                             <div class="panel-heading">
-                                <h3 class="red font-initial">Layer.list()</h3>
+                                <h3 class="red font-initial">LayerApi.list()</h3>
                                 <div class="text-justify margi-35-0">
                                     <p>
-                                        O Layer.list() nos traz a possibilidade de listar todos os layers pertencentes ao token de app passado,
+                                        O LayerApi.list() nos traz a possibilidade de listar todos os layers pertencentes ao token do app passado,
                                         podemos passar como parâmetro diversos filtros e opções, sendo todos opcionais. caso algum filtro ou opçao
-                                        nao for passado o resultado sera retornado sem estar filtrado ou sem as informaçoes complementares
+                                        nao for passado o resultado sera retornado sem estar filtrado ou sem as informações complementares.
                                     </p>
                                     <p>
                                         Tabela com todos os filtros e opções que podemos usar, utilizar um que não esteja listado irá causar erro.
                                         <table class="table table-bordered">
                                             <tr>
-                                                <th> chave </th><th> tipo </th><th> descrição </th>
+                                                <th>tipo</th><th> chave </th><th> descrição </th>
                                             </tr>
                                             <tr>
                                                 <td> filters </td>
-                                                <td> boolean </td>
+                                                <td> deleted </td>
                                                 <td>
                                                     <p>True = Retorna todos os layers deletados</p>
                                                     <p>False = Retorna todos os layers não deletados</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td> options </td>
+                                                <td> include_files </td>
+                                                <td>
+                                                    <p> 'image' = inclui todas as imagens dos layers listados</p>
+                                                    <p> 'video' = inclui todos os videos dos layers listados</p>
+                                                    <p> 'all' = inclui todos os arquivos dos layers listados</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td> options </td>
+                                                <td> file_deleted </td>
+                                                <td>
+                                                    <p>True = Filtra os arquivos deletados selecionados com o options 'include_files'</p>
+                                                    <p>False = Filtra os arquivos não deletados selecionados com o options 'include_files'</p>
                                                 </td>
                                             </tr>
                                         </table>
                                     </p>
                                     <pre>
                                         <code class="javascript hljs">
-angular.module('myApp').controller('myCtrl', function(Layer){
+angular.module('myApp').controller('myCtrl', function(LayerApi){
     // Todos os parâmetros do list são opcionais,
     var params = {
         filters : {
             deleted: 'boolean'
+        },
+        options : {
+            include_files: 'string'
+            file_deleted: 'boolean'
         }
     }
 
-    // É possivel chamar o list sem parâmetro nenhum: Layer.list();
-    var promise = Layer.list(params);
+    // É possivel chamar o list sem parâmetro nenhum: LayerApi.list();
+    var promise = LayerApi.list(params);
     promise.success(function(result){
         // função que deve chamar caso haja sucesso
     });
@@ -250,18 +281,49 @@ angular.module('myApp').controller('myCtrl', function(Layer){
                         <!-- Layer Get-->
                         <div id="layerGet" class="panel panel-warning">
                             <div class="panel-heading">
-                                <h3 class="red font-initial">Layer.get()</h3>
+                                <h3 class="red font-initial">LayerApi.get()</h3>
                                 <div class="text-justify margi-35-0">
                                     <p>
-                                        Layer.get() nos permite que dado um layerId válido, a api retorne um obeto javascript de informações
-                                        sobre o layer.
+                                        LayerApi.get() nos permite que dado um layerId válido, a api retorne um objeto javascript de informações
+                                        sobre o layer. Com o get também temos a possibilidade de filtrar e passar opções.
+                                    </p>
+                                    <p>
+                                        Tabela com todos os filtros e opções que podemos usar, utilizar um que não esteja listado irá causar erro.
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th>tipo</th><th> chave </th><th> descrição </th>
+                                            </tr>
+                                            <tr>
+                                                <td> options </td>
+                                                <td> include_files </td>
+                                                <td>
+                                                    <p> 'image' = inclui todas as imagens dos layers listados</p>
+                                                    <p> 'video' = inclui todos os videos dos layers listados</p>
+                                                    <p> 'all' = inclui todos os arquivos dos layers listados</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td> options </td>
+                                                <td> file_deleted </td>
+                                                <td>
+                                                    <p>True = Filtra os arquivos deletados selecionados com o options 'include_files'</p>
+                                                    <p>False = Filtra os arquivos não deletados selecionados com o options 'include_files'</p>
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </p>
                                     <pre>
                                         <code class="javascript hljs">
-angular.module('myApp').controller('myCtrl', function(Layer){
-    var layerId = 'int';
+angular.module('myApp').controller('myCtrl', function(LayerApi){
+    var form = {
+        layerId: 'integer',
+        options: {
+            include_files: 'string',
+            file_deleted: 'boolean'
+        }
+    }
 
-    var promise = Layer.get(layerId);
+    var promise = LayerApi.get(form);
     promise.success(function(result){
         // função que deve chamar caso haja sucesso
     });
@@ -281,18 +343,87 @@ angular.module('myApp').controller('myCtrl', function(Layer){
                         <!-- Layer Delete-->
                         <div id="layerDelete" class="panel panel-warning">
                             <div class="panel-heading">
-                                <h3 class="red font-initial">Layer.del()</h3>
+                                <h3 class="red font-initial">LayerApi.del()</h3>
                                 <div class="text-justify margi-35-0">
                                     <p>
-                                        Layer.del() nos permite que dado um layerId válido, este seja deletado via soft-delete.
-                                        É retornado um objeto com o layer deletado.
+                                        LayerApi.del() nos permite que dado um layerId válido, este seja deletado via soft-delete.
+                                        É retornado um objeto com o layer deletado. Ao fetuar um delete, podemos passar uma opção
+                                        dizendo para o sistema realizar um soft-delete cascade, deletando todos os dados com referências
+                                        dos layers.
                                     </p>
                                     <pre>
                                         <code class="javascript hljs">
-angular.module('myApp').controller('myCtrl', function(Layer){
-    var layerId = 'int';
+angular.module('myApp').controller('myCtrl', function(LayerApi){
+    var form = {
+        layerId: 'integer',
+        options: {
+            delete_cascade: 'boolean'
+        }
+    }
 
-    var promise = Layer.del(layerId);
+    var promise = LayerApi.del(form);
+    promise.success(function(result){
+        // função que deve chamar caso haja sucesso
+    });
+    promise.error(function(result){
+        // função que deve chamar caso haja erro
+    });
+    promise.finally(function(result){
+        // função que deve chamar quando terminar o processo
+    });
+});
+                                        </code>
+                                    </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Layers-->
+
+
+
+            <!-- Files -->
+            <div id="files" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="text-center">
+                        <h1 class="red font-initial">FileApi</h1>
+                        <div class="text-justify margi-35-0">
+                            <p>
+                                FileApi é um serviço existente no magicSurface, responsável em salvar arquivos relacionados
+                                a layers existentes no nosso mapa, onde esses arquivos podem ser imagens (png, jpg) ou videos
+                                (mp4).
+                            </p>
+                            <p>
+                                Há quatro tipos de métodos que podemos chamar utilizando o serviço FileApi:
+                            </p>
+                            <div class="row">
+                                <a class="col-md-offset-4 col-md-1 btn btn-primary" href="#layerSave">Save</a>
+                                <a class=" col-md-1 btn btn-primary" href="#layerList">List</a>
+                                <a class=" col-md-1 btn btn-primary" href="#layerGet">Get</a>
+                                <a class=" col-md-1 btn btn-primary" href="#layerDelete">Delete</a>
+                            </div>
+                        </div>
+
+
+                        <!-- File Save-->
+                        <div id="fileSave" class="panel panel-warning">
+                            <div class="panel-heading">
+                                <h3 class="red font-initial">FileApi.save()</h3>
+                                <div class="text-justify margi-35-0">
+                                    <p>
+                                        O FileApi.save() é a função responsável em salvar nos arquivos no layer, ele obrigatóriamente
+                                        recebe dois parâmetros. O primeiro é o file, o arquivo selecionado através do input["file"].
+                                        O segundo é o layerId, que identifica a qual layer que o arquivo esta relacionado.
+                                    </p>
+                                    <pre>
+                                        <code class="javascript hljs">
+angular.module('myApp').controller('myCtrl', function(FileApi){
+    var layerId = 'integer'
+    var file = 'File()'
+
+    var promise = FileApi.save(file, layerId);
     promise.success(function(result){
         // função que deve chamar caso haja sucesso
     });
@@ -309,11 +440,138 @@ angular.module('myApp').controller('myCtrl', function(Layer){
                             </div>
                         </div>
 
+                        <!-- File List-->
+                        <div id="fileList" class="panel panel-warning">
+                            <div class="panel-heading">
+                                <h3 class="red font-initial">FileApi.list()</h3>
+                                <div class="text-justify margi-35-0">
+                                    <p>
+                                        O FileApi.list() nos traz a possibilidade de listar todos os arquivos pertencentes
+                                        a um layer, podemos passar como parâmetro diversos filtros e opções, sendo todos
+                                        opcionais. caso algum filtro ou opçao nao for passado o resultado sera retornado
+                                        sem ser filtrado ou as informações complementares.
+                                    </p>
+                                    <p>
+                                        Tabela com todos os filtros e opções que podemos usar, utilizar um que não esteja listado irá causar erro.
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th>tipo</th><th> chave </th><th> descrição </th>
+                                            </tr>
+                                            <tr>
+                                                <td> filters </td>
+                                                <td> deleted </td>
+                                                <td>
+                                                    <p>True = Retorna todos os layers deletados</p>
+                                                    <p>False = Retorna todos os layers não deletados</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td> filters </td>
+                                                <td> file </td>
+                                                <td>
+                                                    <p> 'image' = inclui todas as imagens dos layers listados</p>
+                                                    <p> 'video' = inclui todos os videos dos layers listados</p>
+                                                    <p> 'all' = inclui todos os arquivos dos layers listados</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </p>
+                                    <pre>
+                                        <code class="javascript hljs">
+angular.module('myApp').controller('myCtrl', function(FileApi){
+    // Todos os filtros do list são opcionais,
+    var form = {
+        layerId: 'integer',
+        filters : {
+            file: 'string',
+            deleted: 'boolean'
+        }
+    }
 
+    var promise = FileApi.list(form);
+    promise.success(function(result){
+        // função que deve chamar caso haja sucesso
+    });
+    promise.error(function(result){
+        // função que deve chamar caso haja erro
+    });
+    promise.finally(function(result){
+        // função que deve chamar quando terminar o processo
+    });
+});
+                                        </code>
+                                    </pre>
+                                </div>
+                            </div>
+                        </div>
 
+                        <!-- File Get-->
+                        <div id="fileGet" class="panel panel-warning">
+                            <div class="panel-heading">
+                                <h3 class="red font-initial">FileApi.get()</h3>
+                                <div class="text-justify margi-35-0">
+                                    <p>
+                                        FileApi.get() nos permite que dado um FileId válido, a api retorne um objeto
+                                        javascript de informações sobre o arquivos.
+                                    </p>
+                                    <pre>
+                                        <code class="javascript hljs">
+angular.module('myApp').controller('myCtrl', function(FileApi){
+    var fileId = 'integer';
+
+    var promise = FileApi.get(fileId);
+    promise.success(function(result){
+        // função que deve chamar caso haja sucesso
+    });
+    promise.error(function(result){
+        // função que deve chamar caso haja erro
+    });
+    promise.finally(function(result){
+        // função que deve chamar quando terminar o processo
+    });
+});
+                                        </code>
+                                    </pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- File Delete-->
+                        <div id="fileDelete" class="panel panel-warning">
+                            <div class="panel-heading">
+                                <h3 class="red font-initial">FileApi.del()</h3>
+                                <div class="text-justify margi-35-0">
+                                    <p>
+                                        FileApi.del() nos permite que dado um fileId válido, este seja deletado via soft-delete.
+                                        É retornado um objeto com o file deletado.
+                                    </p>
+                                    <pre>
+                                        <code class="javascript hljs">
+angular.module('myApp').controller('myCtrl', function(FileApi){
+    var fileId = 'integer';
+
+    var promise = FileApi.del(fileId);
+    promise.success(function(result){
+        // função que deve chamar caso haja sucesso
+    });
+    promise.error(function(result){
+        // função que deve chamar caso haja erro
+    });
+    promise.finally(function(result){
+        // função que deve chamar quando terminar o processo
+    });
+});
+                                        </code>
+                                    </pre>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- Files -->
+
+
 
         </div>
     </div>

@@ -11,6 +11,13 @@ environment = Environment(loader=FileSystemLoader(template_dir))
 
 
 class MSHandler(webapp2.RequestHandler):
+    app_data = None
+
+    def get_app_data(self):
+        if not self.app_data:
+            raise Exception('utilize o decorator app_data_required()')
+        return self.app_data
+
     def options(self):
         self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.headers['Access-Control-Allow-Methods'] = 'get,post,options'

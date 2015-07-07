@@ -73,8 +73,8 @@ def app_data_required(activity):
     def decorator(method):
         def wrapper(self, *args, **kwargs):
             body = json.loads(self.request.body) if is_json(self.request.body) else {}
-            token = self.request.GET.get('token') or body.get('token')
-            user_id = self.request.GET.get('user_id') or body.get('user_id')
+            token = self.request.GET.get('token') or self.request.POST.get('token') or body.get('token')
+            user_id = self.request.GET.get('user_id') or self.request.POST.get('user_id') or body.get('user_id')
 
             if not token or not user_id:
                 raise MSException(u'App token e o user_id devem ser enviados')
@@ -82,13 +82,16 @@ def app_data_required(activity):
             app = App.query(App.token == token).get()
             user = User.get_by_id(user_id)
 
+            if user_id != app.user_id:
+                raise MSException(u'App token ou user_id invalido')
+
             if app and user and not app.deleted:
-                app_data = {
+                self.app_data = {
                     'app': app.to_dict_json(),
                     'user': user.to_dict_json()
                 }
 
-                method(self, app_data, *args, **kwargs)
+                method(self, *args, **kwargs)
 
                 ActivityLog.save(user_id=user_id, app_name=app.name,token=token, activity=activity)
             else:

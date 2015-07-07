@@ -36,7 +36,7 @@ angular.module('magicSurface').factory('LayerApi', ["LayerRestApi", "MSValidator
         return promise;
     }
 
-    function get(layer){
+    function get(form){
         var promise = {
             success: function(_func){promise._success = _func},
             error: function(_func){promise._error = _func},
@@ -44,10 +44,14 @@ angular.module('magicSurface').factory('LayerApi', ["LayerRestApi", "MSValidator
         };
 
         $timeout(function(){
-            var status = MSValidator.validate(layer, {hasLayerId: [layer]});
+            if (form === undefined) form = {};
+            var status = MSValidator.validate(form.layerId, {hasId: [form.layerId]});
+
             if(status.isValid){
-                var params = {layerId: isNaN(layer)? layer.id : layer};
-                LayerRestApi.get(params)
+                form.layerId = isNaN(form.layerId)? form.layerId.id : form.layerId;
+                form.options = form.options === undefined ? {} : form.options;
+
+                LayerRestApi.get(form)
                     .success(promise._success)
                     .error(promise._error)
                     .finally(promise._finally);
@@ -70,6 +74,7 @@ angular.module('magicSurface').factory('LayerApi', ["LayerRestApi", "MSValidator
         $timeout(function(){
             if (form === undefined) form = {};
             if (form.filters === undefined) form.filters = {};
+            if (form.options === undefined) form.options = {};
             var status = MSValidator.validate(form.filters, _filters);
 
             if(status.isValid) {
@@ -86,7 +91,7 @@ angular.module('magicSurface').factory('LayerApi', ["LayerRestApi", "MSValidator
         return promise;
     }
 
-    function del(layer){
+    function del(form){
         var promise = {
             success: function(_func){promise._success = _func},
             error: function(_func){promise._error = _func},
@@ -94,10 +99,14 @@ angular.module('magicSurface').factory('LayerApi', ["LayerRestApi", "MSValidator
         };
 
         $timeout(function(){
-            var is_layer_object = angular.isObject(layer) && angular.isUndefined(layer.id);
-            if(is_layer_object || !isNaN(layer)){
-                var params = {layerId: isNaN(layer)? layer.id : layer};
-                LayerRestApi.del(params)
+            if(form === undefined) form = {};
+            var is_layer_object = angular.isObject(form.layerId) && angular.isUndefined(form.layerId.id);
+
+            if(is_layer_object || !isNaN(form.layerId)){
+                if(form.options === undefined) form.options = {};
+                form.layerId = isNaN(form.layerId)? form.layerId.id : form.layerId;
+
+                LayerRestApi.del(form)
                     .success(promise._success)
                     .error(promise._error)
                     .finally(promise._finally);
