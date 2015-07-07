@@ -1,84 +1,52 @@
 # coding utf-8
 import json
-from google.appengine.ext.webapp import blobstore_handlers
-import webapp2
-from src.core.usecase.file import file_get_url_svc
+from src.core.usecase.file import save_file_svc, list_file_svc, delete_file_svc, get_file_svc
 from src.core.web.decorator import ajax_error, callable_from_browser, app_data_required
 from src.core.web.mshandler import MSHandler
 
 __author__ = 'bustamante'
 
 
-class FileGetUrlHandler(MSHandler):
+class FileSaveHandler(MSHandler):
     @callable_from_browser
     @ajax_error
-    @app_data_required(activity='FileGetUrl')
-    def get(self, app_data):
-        arq = json.loads(self.request.GET.get('file'))
-        url = file_get_url_svc.get(arq)
-        self.response.out.write(json.dumps({'url': url}))
-
-
-class FileSaveImagelHandler(blobstore_handlers.BlobstoreUploadHandler):
-    @callable_from_browser
-    @ajax_error
-    @app_data_required(activity='FileSaveImage')
+    @app_data_required(activity='FileSave')
     def post(self):
-        layer_id = self.request.get('layerId')
-        blob_info = self.get_uploads('file')[0]
-        #
-        # image_layer_svc.save(blob_info, layer_id)
-        # result = image_layer_svc.get()
-        # self.response.write(json.dumps(result))
+        layer_id = self.request.POST.get('layerId')
+        file_item = self.request.POST.get('file')
+        app_data = self.get_app_data()
+
+        result = save_file_svc.save(app_data, layer_id, file_item)
+        self.response.out.write(json.dumps(result))
 
 
+class FileGetHandler(MSHandler):
+    @callable_from_browser
+    @ajax_error
+    @app_data_required(activity='FileGet')
+    def get(self):
+        file_id = self.request.GET.get('fileId')
+
+        result = get_file_svc.get(file_id)
+        self.response.out.write(json.dumps(result))
 
 
+class FileListHandler(MSHandler):
+    @callable_from_browser
+    @ajax_error
+    @app_data_required(activity='FileList')
+    def get(self):
+        layer_id = int(self.request.GET.get('layerId'))
+        filters = json.loads(self.request.GET.get('filters'))
+        result = list_file_svc.listing(layer_id, filters)
+        self.response.out.write(json.dumps(result))
 
-# import json
-#
-# import webapp2
-# from google.appengine.ext.webapp import blobstore_handlers
-#
-# from src.core.web.decorator import callable_from_browser
-#
-#
-# class SaveImageLayerHandler(blobstore_handlers.BlobstoreUploadHandler):
-#     @callable_from_browser
-#     def post(self):
-#         layer_id = self.request.get('layer_id')
-#         blob_info = self.get_uploads('file')[0]
-#
-#         image_layer_svc.save(blob_info, layer_id)
-#         result = image_layer_svc.get()
-#         self.response.write(json.dumps(result))
-#
-#
-# class GetImageLayerHandler(webapp2.RequestHandler):
-#     @callable_from_browser
-#     def get(self):
-#         result = image_layer_svc.get()
-#         self.response.write(json.dumps(result))
-# from google.appengine.ext import blobstore
-# from google.appengine.api.app_identity import app_identity
-# from google.appengine.api import images
-#
-# from src.core.usecase import UPLOAD_URI
-# from core.models.deprecated.layer.model import Layer, ImageLayer
-#
-#
-# def save(blob_info, layer_id):
-#     link = images.get_serving_url(blob_info.key())
-#     layer = Layer.get_by_id(int(layer_id))
-#
-#     image_layer = ImageLayer()
-#     image_layer.link = link
-#     image_layer.layer = layer.key
-#     image_layer.blob_key = blob_info.key()
-#     image_layer.put()
-#
-#
-# def get():
-#     bucket_name = app_identity.get_default_gcs_bucket_name()
-#     upload_url = blobstore.create_upload_url(UPLOAD_URI, gs_bucket_name=bucket_name)
-#     return {'upload_url': upload_url}
+
+class FileDeleteHandler(MSHandler):
+    @callable_from_browser
+    @ajax_error
+    @app_data_required(activity='FileDelete')
+    def get(self):
+        file_id = self.request.GET.get('FileId') or self.request.GET.get('FilesId')
+        result = delete_file_svc.delete_by_id(file_id)
+        self.response.out.write(json.dumps(result))

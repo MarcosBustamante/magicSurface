@@ -3,7 +3,10 @@
  */
 angular.module('magicSurface').factory('FileRestApi', ["MSAjax", "MagicSurface",function(MSAjax, MagicSurface) {
     var ms = MagicSurface;
-    var file_geUrl_url = ms.getHost() + "file/upload/url";
+    var save_file_url = ms.getHost() + "file/upload";
+    var file_list_url = ms.getHost() + "file/list";
+    var file_delete_url = ms.getHost() + "file/delete";
+    var file_get_url = ms.getHost() + "file/get";
 
     function getData(){
         return {
@@ -12,25 +15,45 @@ angular.module('magicSurface').factory('FileRestApi', ["MSAjax", "MagicSurface",
         }
     }
 
-    function getUrl(file){
-        var form = {file: file};
-
-        angular.extend(form, getData());
-
-        return MSAjax.get(file_geUrl_url, form);
-    }
-
-    function save(url, form){
+    function save(form){
         form.append('user_id', ms.getUsername());
         form.append('token', ms.getToken());
 
-        return MSAjax.post_file(url, form)
+        return MSAjax.post_file(save_file_url, form);
+    }
+
+    function get(form){
+        if(!form)
+            form = {};
+
+        angular.extend(form, getData());
+
+        return MSAjax.get(file_get_url, form);
+    }
+
+    function list(form){
+        if(!form)
+            form = {};
+
+        angular.extend(form, getData());
+
+        return MSAjax.get(file_list_url, form);
+    }
+
+    function del(form){
+        if(!form)
+            form = {};
+
+        angular.extend(form, getData());
+
+        return MSAjax.get(file_delete_url, form);
     }
 
     return {
-        getUrl: getUrl,
-        save: save
-
+        save: save,
+        get: get,
+        list: list,
+        del: del
     }
 }]);
 

@@ -53,12 +53,12 @@ angular.module('msvalidator').factory('MSValidator', function(){
                 }
             }
         },
-        'hasLayerId': function(layer){
+        'hasId': function(layer){
             var isLayerObj = angular.isObject(layer) && angular.isUndefined(layer.id);
 
             if(!isLayerObj && isNaN(layer)){
                  return {
-                     msg: 'Layer invalido!'
+                     msg: 'Obejot não possui um id!'
                  }
             }
         },

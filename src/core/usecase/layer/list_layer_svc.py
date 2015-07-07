@@ -1,7 +1,10 @@
 # coding utf-8
 from src.core.models.layer.model import Layer
+from src.core.usecase.file import list_file_svc
 
 __author__ = 'bustamante'
+
+ALL = 'all'
 
 
 def _list_all_layers(app_id):
@@ -13,20 +16,48 @@ def _list_all_layers(app_id):
     return layers
 
 
-def listing(app_data, filters):
+def listing(app_data, filters, options):
     """
         filter:
             deleted: [True | False]
+
+        options:
+            include_files: [image | video | all]
+            file_deleted: [true | false]
     """
     filters = {} if not filters else filters
-
-    has_filter_by_deleted = 'deleted' in filters
+    options = {} if not options else options
 
     result = {
         'layers': _list_all_layers(app_data['app']['id'])
     }
+    
+    result['layers'] = _apply_filters(result['layers'], filters)
+    result.update(_apply_options(result['layers'], options))
+    
+    return result
 
-    if has_filter_by_deleted:
-        result['layers'] = [l for l in result['layers'] if l['deleted'] is filters['deleted']]
 
+def _apply_filters(layers, filters):
+    filter_deleted = filters.get('deleted')
+    
+    if filter_deleted is not None:
+        layers = [l for l in layers if l['deleted'] is filter_deleted]
+    
+    return layers
+
+
+def _apply_options(layers, options):
+    result = {}
+    include_files = options.get('include_files')
+    file_deleted = options.get('file_deleted')
+    
+    if include_files is not None:
+        for layer in layers:
+            filter = {
+                'file': include_files,
+                'deleted': file_deleted
+            }
+            result['files'] = list_file_svc.listing(layer['id'], filter)
+    
     return result

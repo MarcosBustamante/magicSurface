@@ -34,15 +34,16 @@ angular.module('msajax').factory('MSAjax', ["$http", function($http){
            return $http(req);
        },
 
-       post_file: function(url, form){
-           var options = {
-               withCredentials: true,
-               headers: {
-                   'content-type': 'multipart/form-data'
-               },
-               transformRequest: angular.identity
+       post_file: function(url, data){
+           if(!data)
+                data = {};
+           var req = {
+               method: 'POST',
+               url: url,
+               headers: {'Content-Type': undefined},
+               data: data
            };
-           return $http.post(url, form, options);
+           return $http(req);
        }
-}
+    }
 }]);
