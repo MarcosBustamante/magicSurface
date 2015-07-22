@@ -1,0 +1,25 @@
+Metadata-Version: 2.0
+Name: vimeo
+Version: 0.1.9
+Summary: Python module for using Vimeo API.
+Home-page: https://github.com/rkumarnirmal/python-vimeo
+Author: Nirmal Kumar
+Author-email: rkumarnirmal@gmail.com
+License: MIT
+Keywords: vimeo internet api
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Internet
+Classifier: Topic :: Multimedia :: Video
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Dist: requests (==0.13.1)
+Requires-Dist: simplejson (>=2.1.6)
+Requires-Dist: oauth2 (>=1.5.170)
+
+UNKNOWN
+
+
