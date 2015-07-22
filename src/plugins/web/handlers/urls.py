@@ -1,31 +1,34 @@
 # coding utf-8
+
 import webapp2
+import urllib
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
 from src.core.web.mshandler import MSHandler
 from src.plugins.web.handlers.api.layer import layer
 from src.plugins.web.handlers.api.file import file
 from src.plugins.web.handlers.doc import doc
 from src.plugins.web.handlers.apps import myApps
 from src.plugins.web.handlers.sign import signUp, signIn, signOut
-import vimeo
-import youtube
 from requests.packages import urllib3
 urllib3.disable_warnings()
-from google.appengine.api import urlfetch
-urlfetch.set_default_fetch_deadline(60)
+
+
 __author__ = 'bustamante'
 
 class Teste(MSHandler):
     def get(self):
-        self.write_template('teste.html')
+        upload_url = blobstore.create_upload_url('/upload')
+        self.write_template('teste.html', {'upload_url': upload_url})
 
+class UploadVideo(blobstore_handlers.BlobstoreUploadHandler):
     def post(self):
-        file_item = self.request.POST.get('file')
-        v = vimeo.VimeoClient(
-            token="89c113ec6b8847ba634737d3b8e28071",
-            key="f0d0349846dce902a20bde2cef98170e76ea92f6",
-            secret="DzmUvtyDRHvh1hfo5lhn9Qm9VNZ8h0+Gw9V3hHKSLZQmrXWu00SqCqfsZQ4dJlcJpWtRjE2N+1wPhxa8dP6dI3b0qX/1JqJJIt0i0NRIsqVi+Ivr2+ReGmQlshASrUud")
+        upload = self.get_uploads()[0]
+        self.redirect('/view_video/%s' % upload.key())
 
-        v.upload(file_item)
+class ViewVideo(blobstore_handlers.BlobstoreDownloadHandler):
+    def get(self, video_key):
+        self.send_blob(video_key)
 
 site_routes = [
     ('/', doc.DocHandler),
@@ -34,7 +37,9 @@ site_routes = [
     ('/signIn', signIn.SignInHandler),
     ('/myApps', myApps.MyAppsHandler),
     ('/documentation', doc.DocHandler),
-    ('/teste', Teste)
+    ('/teste', Teste),
+    ('/upload', UploadVideo),
+    ('/view_video/([^/]+)?', ViewVideo),
 ]
 api_routes = [
     ('/layer/get', layer.LayerGetHandler),
