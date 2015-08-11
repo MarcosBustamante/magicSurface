@@ -27,7 +27,7 @@ angular.module('msvalidator').factory('MSValidator', function(){
             var _fieldsWrong = [];
             for(var field in _form){
                 if(fields.indexOf(field) === -1){
-                    _fieldsWrong.push(fields[i]);
+                    _fieldsWrong.push(field);
                 }
             }
 

@@ -2,8 +2,8 @@ angular.module('magicSurface', ['msajax', 'msvalidator']);
 angular.module('magicSurface').factory('MagicSurface', function(){
     var _token;
     var _username;
-    //var _host = 'http://magicsurfacebr.appspot.com/';
-    var _host = 'http://localhost:8080/';
+    var _host = 'http://magicsurfacebr.appspot.com/';
+     //var _host = 'http://localhost:8080/';
 
     function configApp(token, username){
         _token = token;

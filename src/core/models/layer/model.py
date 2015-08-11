@@ -23,8 +23,7 @@ class Layer(ndb.Model):
             'latitude': self.latitude,
             'longitude': self.longitude,
             'radius': self.radius,
-            'deleted': self.deleted,
-            'app_id': self.app_id
+            'deleted': self.deleted
         }
 
     @classmethod

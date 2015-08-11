@@ -45,6 +45,8 @@ angular.module('magicSurface').factory('LayerApi', ["LayerRestApi", "MSValidator
 
         $timeout(function(){
             if (form === undefined) form = {};
+            if (!isNaN(form)) form = {'layerId': form};
+
             var status = MSValidator.validate(form.layerId, {hasId: [form.layerId]});
 
             if(status.isValid){
