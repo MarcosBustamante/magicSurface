@@ -3,7 +3,7 @@
  */
 angular.module('magicSurface').factory('FileApi',["MSValidator", "FileRestApi", "$timeout", function(MSValidator, FileRestApi, $timeout){
 
-    function save(file, layer){
+    function save(file, data){
         var promise = {
             success: function(_func){promise._success = _func},
             error: function(_func){promise._error = _func},
@@ -11,8 +11,10 @@ angular.module('magicSurface').factory('FileApi',["MSValidator", "FileRestApi", 
         };
 
         $timeout(function(){
+            data.layer = data.layer || data.layerId;
+
             var _rules = {
-                hasId: [layer]
+                hasId: [data.layer]
             };
 
             var status = MSValidator.validate(undefined, _rules);
@@ -20,8 +22,12 @@ angular.module('magicSurface').factory('FileApi',["MSValidator", "FileRestApi", 
             if(status.isValid)
             {
                 var form = new FormData();
-                form.append("layerId", isNaN(layer)? layer.id : layer);
+                data.layerId = isNaN(data.layer)? data.layer.id : data.layer;
+                delete data.layer;
+
+                form.append("data", angular.toJson(data));
                 form.append("file", file);
+
                 FileRestApi.save(form)
                     .success(promise._success)
                     .error(promise._error)

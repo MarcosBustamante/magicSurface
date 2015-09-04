@@ -18,6 +18,9 @@ class File(ndb.Model):
     last_update = ndb.DateTimeProperty(auto_now=True)
     size = ndb.IntegerProperty(required=True)
     kind = ndb.StringProperty(choices=(IMAGE, VIDEO))
+    angle_x = ndb.FloatProperty(default=0.0)
+    angle_y = ndb.FloatProperty(default=0.0)
+    angle_z = ndb.FloatProperty(default=0.0)
 
     def to_dict_json(self):
         return {
@@ -29,5 +32,8 @@ class File(ndb.Model):
             'layer_id': self.layer.id(),
             'deleted': self.deleted,
             'created': str(self.created),
-            'last_update': str(self.last_update)
+            'last_update': str(self.last_update),
+            'angle_x': self.angle_x,
+            'angle_y': self.angle_y,
+            'angle_z': self.angle_z,
         }

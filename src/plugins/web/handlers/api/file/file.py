@@ -12,11 +12,12 @@ class FileSaveHandler(MSHandler):
     @ajax_error
     @app_data_required(activity='FileSave')
     def post(self):
-        layer_id = self.request.POST.get('layerId')
-        file_item = self.request.POST.get('file')
-        app_data = self.get_app_data()
+        data = json.loads(self.request.POST.get('data'))
+        data.update(self.get_app_data())
 
-        result = save_file_svc.save(app_data, layer_id, file_item)
+        file_item = self.request.POST.get('file')
+
+        result = save_file_svc.save(data, file_item)
         self.response.out.write(json.dumps(result))
 
 

@@ -12,8 +12,8 @@ img_exts = ['png', 'jpg', 'jpeg']
 video_exts = ['mp4']
 
 
-def save(app_data, layer_id, field_storage):
-    layer = Layer.get_by_id(int(layer_id))
+def save(data, field_storage):
+    layer = Layer.get_by_id(int(data['layerId']))
 
     if layer is None:
         raise MSException(u'LayerId inválido')
@@ -23,7 +23,10 @@ def save(app_data, layer_id, field_storage):
     instance = _get_image_instance(field_storage, file_type)
 
     instance.layer = layer.key
-    instance.app_id = app_data['app']['id']
+    instance.app_id = data['app']['id']
+    instance.angle_x = data.get('angle_x', 0)
+    instance.angle_y = data.get('angle_y', 0)
+    instance.angle_z = data.get('angle_z', 0)
     instance.put()
 
     return instance.to_dict_json()
