@@ -40,6 +40,7 @@ angular.module('msajax').factory('MSAjax', ["$http", function($http){
            var req = {
                method: 'POST',
                url: url,
+               transformRequest: angular.identity,
                headers: {'Content-Type': undefined},
                data: data
            };

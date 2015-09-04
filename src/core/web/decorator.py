@@ -77,7 +77,7 @@ def app_data_required(activity):
             user_id = self.request.GET.get('user_id') or self.request.POST.get('user_id') or body.get('user_id')
 
             if not token or not user_id:
-                raise MSException(u'App token e o user_id devem ser enviados')
+                raise MSException(u'App token e user_id devem ser enviados')
 
             app = App.query(App.token == token).get()
             user = User.get_by_id(user_id)

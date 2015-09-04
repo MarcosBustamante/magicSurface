@@ -8,11 +8,14 @@ WITH_EXCEPTION = True
 def _is_number(form, rules):
     wrong_fields = []
     for rule in rules:
-        if form.get(rule) and not str(form[rule]).isdigit():
+        try:
+            if rule in form:
+                float(form[rule])
+        except ValueError as ve:
             wrong_fields.append(rule)
 
     if len(wrong_fields) > 0 and WITH_EXCEPTION:
-        raise MSException('A campos que deveriam ser números!', fields=wrong_fields)
+        raise MSException('Ha campos que deveriam ser números!', fields=wrong_fields)
 
 
 def _not_empty(form, rules):

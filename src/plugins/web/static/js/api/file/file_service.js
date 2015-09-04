@@ -12,7 +12,6 @@ angular.module('magicSurface').factory('FileApi',["MSValidator", "FileRestApi", 
 
         $timeout(function(){
             var _rules = {
-                isFile: [file],
                 hasId: [layer]
             };
 

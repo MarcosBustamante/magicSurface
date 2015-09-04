@@ -16,6 +16,7 @@ angular.module('magicSurface').factory('FileRestApi', ["MSAjax", "MagicSurface",
     }
 
     function save(form){
+        console.log(ms);
         form.append('user_id', ms.getUsername());
         form.append('token', ms.getToken());
 

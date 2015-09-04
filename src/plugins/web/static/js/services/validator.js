@@ -33,7 +33,7 @@ angular.module('msvalidator').factory('MSValidator', function(){
 
             if(!angular.equals(_fieldsWrong, [])){
                 return {
-                    msg: 'A campos que nao deveriam existir no objeto!',
+                    msg: 'Ha campos que nao deveriam existir no objeto!',
                     fields: _fieldsWrong
                 }
             }
@@ -48,7 +48,7 @@ angular.module('msvalidator').factory('MSValidator', function(){
 
             if(!angular.equals(_fieldsWrong, [])){
                 return {
-                    msg: 'A campos que deveriam ser números!',
+                    msg: 'Ha campos que deveriam ser números!',
                     fields: _fieldsWrong
                 }
             }

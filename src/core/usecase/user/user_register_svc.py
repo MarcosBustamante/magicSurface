@@ -38,4 +38,4 @@ def _validate_form(form):
         form['birth'] = datetime.strptime(form['birth'], "%Y-%m-%d").date()
 
     if more_info:
-        raise MSException(u'A campos com informações inválidas', more_info=more_info)
+        raise MSException(u'Ha campos com informações inválidas', more_info=more_info)

@@ -4,12 +4,6 @@
 angular.module('magicSurface').factory('LayerApi', ["LayerRestApi", "MSValidator", "$timeout", function(LayerRestApi, MSValidator, $timeout){
     var _rules = {
         notEmpty: ['name', 'latitude', 'longitude'],
-        existOnly: ['name', 'latitude', 'longitude', 'radius', 'id'],
-        isNumber: ['latitude', 'longitude', 'radius']
-    };
-
-    var _filters = {
-        existOnly: ['deleted']
     };
 
     function save(form){
@@ -77,17 +71,11 @@ angular.module('magicSurface').factory('LayerApi', ["LayerRestApi", "MSValidator
             if (form === undefined) form = {};
             if (form.filters === undefined) form.filters = {};
             if (form.options === undefined) form.options = {};
-            var status = MSValidator.validate(form.filters, _filters);
 
-            if(status.isValid) {
-                LayerRestApi.list(form)
-                    .success(promise._success)
-                    .error(promise._error)
-                    .finally(promise._finally);
-            } else {
-                if(promise._error) promise._error(status);
-                if(promise._finally) promise._finally('');
-            }
+            LayerRestApi.list(form)
+                .success(promise._success)
+                .error(promise._error)
+                .finally(promise._finally);
         });
 
         return promise;
