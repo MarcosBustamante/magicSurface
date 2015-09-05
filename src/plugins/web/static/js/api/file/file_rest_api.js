@@ -1,7 +1,7 @@
 /**
  * Created by bustamante on 6/24/15.
  */
-angular.module('magicSurface').factory('FileRestApi', ["MSAjax", "MagicSurface",function(MSAjax, MagicSurface) {
+angular.module('magicSurface').factory('FileRestApi', ["Upload", "MSAjax", "MagicSurface",function(Upload, MSAjax, MagicSurface) {
     var ms = MagicSurface;
     var save_file_url = ms.getHost() + "file/upload";
     var file_list_url = ms.getHost() + "file/list";
@@ -15,12 +15,16 @@ angular.module('magicSurface').factory('FileRestApi', ["MSAjax", "MagicSurface",
         }
     }
 
-    function save(form){
-        console.log(ms);
+    function save(file, form){
+
+        angular.extend(form, getData());
+
+        return MSAjax.post_file(save_file_url, file, form);
+        /*console.log(ms);
         form.append('user_id', ms.getUsername());
         form.append('token', ms.getToken());
 
-        return MSAjax.post_file(save_file_url, form);
+        return MSAjax.post_file(save_file_url, form);*/
     }
 
     function get(form){

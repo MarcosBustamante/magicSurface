@@ -420,15 +420,24 @@ angular.module('myApp').controller('myCtrl', function(LayerApi){
                                     <pre>
                                         <code class="javascript hljs">
 angular.module('myApp').controller('myCtrl', function(FileApi){
-    var layerId = 'integer'
+    var params = {
+        layerId: 'integer',
+        [angle_x: 'float'],
+        [angle_y: 'float'],
+        [angle_z: 'float']
+    }
+
     var file = 'File()'
 
-    var promise = FileApi.save(file, layerId);
+    var promise = FileApi.save(file, params);
     promise.success(function(result){
         // função que deve chamar caso haja sucesso
     });
     promise.error(function(result){
         // função que deve chamar caso haja erro
+    });
+    promise.progress(function(result){
+        // função que deve chamar para notificar o upload
     });
     promise.finally(function(result){
         // função que deve chamar quando terminar o processo

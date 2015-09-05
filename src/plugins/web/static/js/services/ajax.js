@@ -1,5 +1,5 @@
 angular.module('msajax', []);
-angular.module('msajax').factory('MSAjax', ["$http", function($http){
+angular.module('msajax').factory('MSAjax', ["$http", "Upload", function($http, Upload){
     return {
        get : function(url, params){
            if(!params)
@@ -23,28 +23,16 @@ angular.module('msajax').factory('MSAjax', ["$http", function($http){
            return $http(req);
        },
 
-       delete : function(url, params){
-           if(!params)
-                params = {};
-           var req = {
-               method: "delete",
-               url: url,
-               params: params
-           };
-           return $http(req);
-       },
-
-       post_file: function(url, data){
+       post_file: function(url, file, data){
            if(!data)
                 data = {};
            var req = {
-               method: 'POST',
                url: url,
-               transformRequest: angular.identity,
-               headers: {'Content-Type': undefined},
-               data: data
+               fields: data,
+               file: file
            };
-           return $http(req);
+
+           return Upload.upload(req);
        }
     }
 }]);

@@ -1,4 +1,4 @@
-angular.module('magicSurface', ['msajax', 'msvalidator']);
+angular.module('magicSurface', ['msajax', 'msvalidator', 'ngFileUpload']);
 angular.module('magicSurface').factory('MagicSurface', function(){
     var _token;
     var _username;

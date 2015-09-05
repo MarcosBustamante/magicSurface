@@ -24,9 +24,9 @@ def save(data, field_storage):
 
     instance.layer = layer.key
     instance.app_id = data['app']['id']
-    instance.angle_x = data.get('angle_x', 0)
-    instance.angle_y = data.get('angle_y', 0)
-    instance.angle_z = data.get('angle_z', 0)
+    instance.angle_x = float(data.get('angle_x', 0))
+    instance.angle_y = float(data.get('angle_y', 0))
+    instance.angle_z = float(data.get('angle_z', 0))
     instance.put()
 
     return instance.to_dict_json()
