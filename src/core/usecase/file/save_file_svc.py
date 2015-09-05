@@ -19,7 +19,8 @@ def save(data, field_storage):
         raise MSException(u'LayerId inválido')
 
     file_type = _get_file_type(field_storage)
-    _s3_save(field_storage)
+    path = '%s/%s/' % (data['user']['id'], file_type)
+    _s3_save(field_storage, path)
     instance = _get_image_instance(field_storage, file_type)
 
     instance.layer = layer.key
@@ -46,7 +47,7 @@ def _get_file_type(field_storage):
     raise MSException(u'Tipo de arquivo invalido, verifique se ele é: %s' % ', '.join(img_exts))
 
 
-def _s3_save(field_storage):
+def _s3_save(field_storage, path):
     access_id = Config.get('AWS_ACCESS_KEY_ID')
     secret_access = Config.get('AWS_SECRET_ACCESS_KEY')
     bucket_name = Config.get('BUCKET_NAME')
@@ -54,7 +55,7 @@ def _s3_save(field_storage):
     conn = boto.connect_s3(access_id, secret_access)
     bucket = conn.get_bucket(bucket_name)
     k = Key(bucket)
-    k.key = field_storage.filename
+    k.key = path + field_storage.filename
     k.set_contents_from_file(field_storage.file)
     k.make_public()
 
