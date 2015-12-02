@@ -19,15 +19,15 @@ def save(data, field_storage):
         raise MSException(u'LayerId inválido')
 
     file_type = _get_file_type(field_storage)
-    path = '%s/%s/' % (data['user']['id'], file_type)
+    path = '%s/%s' % (data['user']['id'], file_type)
     _s3_save(field_storage, path)
-    instance = _get_image_instance(field_storage, file_type)
+    instance = _get_image_instance(field_storage, file_type, path)
 
     instance.layer = layer.key
     instance.app_id = data['app']['id']
-    instance.angle_x = float(data.get('angle_x', 0))
-    instance.angle_y = float(data.get('angle_y', 0))
-    instance.angle_z = float(data.get('angle_z', 0))
+    instance.angle_x = float(data.get('angle_x', 0) or 0)
+    instance.angle_y = float(data.get('angle_y', 0) or 0)
+    instance.angle_z = float(data.get('angle_z', 0) or 0)
     instance.put()
 
     return instance.to_dict_json()
@@ -55,16 +55,16 @@ def _s3_save(field_storage, path):
     conn = boto.connect_s3(access_id, secret_access)
     bucket = conn.get_bucket(bucket_name)
     k = Key(bucket)
-    k.key = path + field_storage.filename
+    k.key = "%s/%s" % (path, field_storage.filename)
     k.set_contents_from_file(field_storage.file)
     k.make_public()
 
 
-def _get_image_instance(field_storage, file_type):
+def _get_image_instance(field_storage, file_type, path):
     bucket_name = Config.get('BUCKET_NAME')
     file_instance = File()
     file_instance.kind = file_type
     file_instance.name = field_storage.filename
     file_instance.size = field_storage.bufsize
-    file_instance.link = 'https://s3-sa-east-1.amazonaws.com/%s/%s' % (bucket_name, field_storage.filename)
+    file_instance.link = 'https://s3-sa-east-1.amazonaws.com/%s/%s/%s' % (bucket_name, path, field_storage.filename)
     return file_instance

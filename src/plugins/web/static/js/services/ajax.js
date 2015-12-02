@@ -1,4 +1,4 @@
-angular.module('msajax', []);
+angular.module('msajax', ['ngFileUpload']);
 angular.module('msajax').factory('MSAjax', ["$http", "Upload", function($http, Upload){
     return {
        get : function(url, params){
