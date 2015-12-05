@@ -21,7 +21,7 @@ def listing(layer_id, filters):
     
 
 def _list_files(layer_id):
-    files = File.query(File.layer == ndb.Key(Layer, layer_id)).fetch()
+    files = File.query(File.layer == ndb.Key(Layer, int(layer_id))).fetch()
     files_tdj = [f.to_dict_json() for f in files]
     return files_tdj
 

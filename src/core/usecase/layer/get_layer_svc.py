@@ -33,9 +33,9 @@ def _apply_options(layer, options):
 
     if include_files is not None:
         _filter = {
-            'file': include_files,
+            'files': include_files,
             'deleted': file_deleted
         }
-        result['files'] = list_file_svc.listing(layer['id'], _filter)
+        result = list_file_svc.listing(layer['id'], _filter)
 
     return result

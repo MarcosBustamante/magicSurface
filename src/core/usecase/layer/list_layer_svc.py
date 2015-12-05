@@ -53,11 +53,15 @@ def _apply_options(layers, options):
     file_deleted = options.get('file_deleted')
     
     if include_files is not None:
+        files = result.setdefault('file', [])
         for layer in layers:
-            filter = {
-                'file': include_files,
+            _filter = {
+                'files': include_files,
                 'deleted': file_deleted
             }
-            result['files'] = list_file_svc.listing(layer['id'], filter)
+            layer_files = list_file_svc.listing(layer['id'], _filter)
+            files.extend(layer_files['files'])
     
     return result
+
+
